@@ -1,0 +1,48 @@
+# mode: yaml; coding: utf-8
+########################################################################
+# Experiment configuration example using YAML. Strings after `#` are comments.
+#
+# The configuration divided into two parts
+# 1. experiment -- define experiment basic information
+# 2. mdaq_sys   -- define parameters for MIDAS utilities
+
+# Experiment information
+experiment:
+  # The experiment ID, no space in it!
+  id: events-sim
+  info: Acquisite simulation events
+  paths:
+    base: ./
+    data: ./data
+    bin:  ./bin
+  analyzer:
+    name: analyzer
+    info: analyzer for events-sim
+    options: [-D, ]
+  frontend:
+    name: frontend
+    info: Frontend for events-sim
+    options: [-D, ]
+
+# MIDAS System
+mdaq_sys:
+  path: /usr/lib/mdaq
+  bin: /usr/lib/mdaq/bin
+  exptab: ./exptab
+  host: localhost
+  mhttpd: # MIDAS HTTPD Server
+    enabled: true
+    options: [-D, ]
+    port: 8080
+  mlogger: # Data Logger
+    exec:    mlogger-root # use root-enabled mlogger (default)
+    enabled: true
+    options: [-D, ]
+  mserver: # MIDAS Server
+    enabled: true
+    options: [-D, -m]
+  odbedit: # Online DB Editor
+    enabled: false
+    options: []
+    script: ''
+

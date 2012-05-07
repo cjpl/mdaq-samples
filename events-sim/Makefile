@@ -1,4 +1,12 @@
 #####################################################################
+#
+#  Name:       Makefile
+#  Created by: Exaos Lee
+#
+#  Contents:   Makefile for MIDAS start example using `mdaq-config`
+#
+#####################################################################
+
 # This is only for Linux
 OSTYPE = $(shell uname)
 ifeq ($(OSTYPE),Linux)
@@ -13,17 +21,16 @@ SYSERR::
 endif
 
 # Find MIDAS
-ifndef MIDASSYS
-MIDASSYS := /opt/DAQ
+MDAQ_CFG := $(shell which mdaq-config 2> /dev/null)
+ifdef MDAQ_CFG
+MIDAS_CFLAGS := $(shell $(MDAQ_CFG) --cflags)
+MIDAS_LIBS   := $(shell $(MDAQ_CFG) --libs)
+MIDAS_LIBDIR := $(shell $(MDAQ_CFG) --libdir)
 endif
 
-MIDAS_CFLAGS := -g -O2 -Wall -I${MIDASSYS}/include/midas
-MIDAS_CFLAGS += -DOS_LINUX -Dextname -DHAVE_ZLIB
-MIDAS_LIBS   := -lm -lz -lutil -lnsl -lrt -lpthread -L${MIDASSYS}/lib -lmidas
 
 # Find ROOT
 ifndef ROOTSYS
-
 ROOT_CONFIG := $(shell which root-config 2> /dev/null)
 ifdef ROOT_CONFIG
 	ROOTSYS := $(shell root-config --prefix)
@@ -38,61 +45,57 @@ else
 ROOT_CONFIG := ${ROOTSYS}/bin/root-config
 endif
 
-ROOT_CFLAGS := $(shell ${ROOT_CONFIG} --cflags) -DHAVE_ROOT -DUSE_ROOT
+ROOT_CFLAGS := $(shell ${ROOT_CONFIG} --cflags)
 ROOT_LIBS   := $(shell ${ROOT_CONFIG} --libs)
 ROOT_LIBS   +=  -lThread -Wl,-rpath,$(shell ${ROOT_CONFIG} --libdir)
 
-##--------- Analyzer modules --------------
-ANA_MODS = adccalib.o adcsum.o scaler.o
+#-------------------------------------------------------------------
+# List of analyzer modules
+#
+MODULES   = adccalib.o adcsum.o scaler.o
 
-##--------- Frontend
+#-------------------------------------------------------------------
+# Hardware driver can be (camacnul, kcs2926, kcs2927, hyt1331)
+#
+DRIVER := $(shell $(MDAQ_CFG) --srcdir)/cnaf_callback.c  \
+          $(shell $(MDAQ_CFG) --drvdir)/camac/camacnul.c \
+          evtgen.o
+
+#-------------------------------------------------------------------
+# Frontend code name defaulted to frontend in this example.
 UFE := frontend
-FE_DRV := camacnul
-FE_OBJS = ${MIDASSYS}/lib/midas/mfe.o ${FE_DRV}.o cnaf_callback.o evtgen.o
-MIDAS_CFLAGS += -I${MIDASSYS}/share/midas/drivers/camac
+UFE_DEPS := $(MIDAS_LIBDIR)/mfe.o $(DRIVER) $(UFE).o
 
-##--------- Analyzer using rootana
-ROOT_GLIBS  := $(shell ${ROOT_CONFIG} --glibs) -lXMLParser -lThread
-RANA_CFLAGS := -I/opt/DAQ/include/rootana -I/opt/DAQ/include/libNetDirectory
-RANA_CFLAGS += -DHAVE_LIBNETDIRECTORY -DOLD_SERVER
-RANA_LIBS   := -L/opt/DAQ/lib -lrootana -lNetDirectory
+ANA := analyzer
+ANA_DEPS := $(MIDAS_LIBDIR)/rmana.o $(ANA).o $(MODULES)
 
-#############################################################
-CFLAGS   += ${MIDAS_CFLAGS}
-CXXFLAGS += ${MIDAS_CFLAGS} ${ROOT_CFLAGS}
-LDFLAGS  += ${MIDAS_LIBS} ${ROOT_LIBS}
-EXES :=  ${UFE} analyzer ana4evt
+# alternative analyzer: ana4evt
+RANA := ana4evt
+RANA_FLAGS := -I$(shell $(MDAQ_CFG) --incdir)/rootana \
+   -I$(shell $(MDAQ_CFG) --incdir)/libnetDirectory
+RANA_DEPS  := $(MIDAS_LIBDIR)/rmana.o ana4evt.o -lrootana -lNetDirectory
 
-all: ${EXES}
+####################################################################
 
-${UFE}: ${UFE}.o ${FE_OBJS}
-	${CC} ${LDFLAGS} -o $@ $^
+all: $(UFE) $(ANA)
 
-analyzer: analyzer.o ${MIDASSYS}/lib/midas/rmana.o ${ANA_MODS}
-	${CXX} ${LDFLAGS} -o $@ $^
+$(UFE): $(UFE_DEPS)
+	$(CC) $(CFLAGS) $(MIDAS_CFLAGS) -o $@ $^ $(MIDAS_LIBS) $(ROOT_LIBS)
 
-ana4evt: ana4evt.cpp
-	${CXX} ${CXXFLAGS} ${RANA_CFLAGS} -g -o $@ $< \
-	       ${ROOT_GLIBS} ${MIDAS_LIBS} ${RANA_LIBS}
-
-cnaf_callback.o: ${MIDASSYS}/share/midas/src/cnaf_callback.c
-	${CC} ${CFLAGS} -c -o $@ $<
-
-${FE_DRV}.o: ${MIDASSYS}/share/midas/drivers/camac/${FE_DRV}.c
-	${CC} ${CFLAGS} -c -o $@ $<
-
-evtgen.o: evtgen.cc evtgen.h
-	${CXX} $(shell ${ROOT_CONFIG} --cflags) ${MIDAS_CFLAGS} -c -o $@ $<
+$(ANA): $(ANA_DEPS)
+	$(CXX) $(CXXFLAGS) $(MIDAS_CFLAGS) $(ROOT_CFLAGS) -o $@ $^ $(MIDAS_LIBS) $(ROOT_LIBS)
 
 %.o: %.c experim.h
-	${CC} ${CFLAGS} -c -o $@ $<
+	$(CC) $(CFLAGS) $(MIDAS_CFLAGS) -o $@ -c $<
 
-%.o: %.cpp
-	${CXX} ${CXXFLAGS} -c -o $@ $<
+evtgen.o: evtgen.cpp evtgen.h
+	$(CXX) $(CXXFLAGS) $(MIDAS_CFLAGS) $(ROOT_CFLAGS) -o $@ -c $<
 
-%.o: %.cc
-	${CXX} ${CXXFLAGS} -c -o $@ $<
+%.o: %.cpp experim.h
+	$(CXX) $(CXXFLAGS) $(MIDAS_CFLAGS) $(ROOT_CFLAGS) -DHAVE_ROOT -DUSE_ROOT -o $@ -c $<
 
 clean::
-	rm -f *.o *~ \#* ${EXES}
+	rm -f *.o *~ \#* $(UFE) $(ANA)
+
+.PHONY: clean
 

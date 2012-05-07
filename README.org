@@ -1,0 +1,10 @@
+# -*- mode: org; coding: utf-8
+#+TITLE: Examples for mdaq
+#+AUTHOR: Exaos Lee <exaos.DOT.lee(at)gmail.DOT.com>
+
+This directory contains examples for mdaq (Midas Data AcQuistion).
+
+* mdaq-start -- the start point for mdaq
+* events-sim -- examples code to acquisite simulation events
+* caen-adcs-sis3100 -- ready-to-use code using CAEN VME ADCs and SIS3100
+
