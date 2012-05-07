@@ -1,0 +1,9 @@
+*.pyc
+*.o
+*~
+lib*.[a,so]
+\#.*
+data/
+frontend
+analyzer
+try_evtgen
