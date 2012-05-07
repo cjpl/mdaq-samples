@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- created by Roody on Fri Oct  7 12:42:22 2011 -->
+<roody>
+  <online>localhost:9090</online>
+  <graphics>
+    <zones>3x4</zones>
+    <refresh>3</refresh>
+  </graphics>
+  <canvas>
+    <name>canvas0</name>
+    <size>45 157 1052 752</size>
+    <zones>3x4</zones>
+    <pad>
+      <number>1</number>
+      <object>
+        <class>TH1D</class>
+        <name>Raw dE1</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw dE1</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>2</number>
+      <object>
+        <class>TH1D</class>
+        <name>Raw E1</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw E1</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>3</number>
+      <object>
+        <class>TH1D</class>
+        <name>Raw P1</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw P1</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>4</number>
+      <object>
+        <class>TH1D</class>
+        <name>Raw Eu</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw Eu</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>5</number>
+      <object>
+        <class>TH1D</class>
+        <name>Raw Pu</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw Pu</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>6</number>
+      <object>
+        <class>TH1D</class>
+        <name>Raw Ed</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw Ed</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>7</number>
+      <object>
+        <class>TH1D</class>
+        <name>Raw Pd</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw Pd</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>8</number>
+      <object>
+        <class>TH2D</class>
+        <name>Raw dE1 - E1</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw dE1 - E1</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>9</number>
+      <object>
+        <class>TH2D</class>
+        <name>Raw E1 - P1</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw E1 - P1</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>10</number>
+      <object>
+        <class>TH2D</class>
+        <name>Raw Eu - Pu</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw Eu - Pu</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>11</number>
+      <object>
+        <class>TH2D</class>
+        <name>Raw Ed - Pd</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw Ed - Pd</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+    <pad>
+      <number>12</number>
+      <object>
+        <class>TH2D</class>
+        <name>Raw Eu - Ed</name>
+        <source>localhost:9090|histos|Raw Histogramming|Raw Eu - Ed</source>
+        <drawOption></drawOption>
+      </object>
+    </pad>
+  </canvas>
+</roody>

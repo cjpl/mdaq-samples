@@ -1,0 +1,45 @@
+# Experiment configuration example
+# The configuration divided into two parts
+# 1. experiment -- define experiment base information
+# 2. midassys -- define parameters for MIDAS utilities
+
+# Experiment information
+experiment:
+  # The experiment ID, no space in it!
+  id: caen-adcs-sis3100
+  info: Experiments using CAEN VME ADCs with SIS3100
+  paths:
+    base: .
+    data: ./data
+    bin:  ./bin
+  analyzer:
+    name: cvadcana
+    info: analyzer for THM2011
+    options: [-D, ]
+  frontend:
+    name: cvadcfe
+    info: Frontend for THM2011
+    options: [-D, ]
+
+# MIDAS System
+mdaq_sys:
+  path: /usr/lib/mdaq
+  bin: /usr/lib/mdaq/bin
+  exptab: ./exptab
+  host: localhost
+  mhttpd: # MIDAS HTTPD Server
+    enabled: true
+    options: [-D, ]
+    port: 7403
+  mlogger: # Data Logger
+    name: mlogger-root
+    enabled: true
+    options: [-D, ]
+  mserver: # MIDAS Server
+    enabled: true
+    options: [-D, -m]
+  odbedit: # Online DB Editor
+    enabled: false
+    options: []
+    script: ''
+

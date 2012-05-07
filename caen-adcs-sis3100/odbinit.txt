@@ -1,0 +1,48 @@
+
+mkdir "/Equipment/Expcvadc/Settings/V785N_1"
+cd "/Equipment/Expcvadc/Settings/V785N_1"
+create BOOL  "Enable"
+create DWORD "Address"
+create INT   "Mode"
+create WORD  "Threshold[16]"
+set "Enable"  y
+set "Address" 0x785C0000
+set "Mode"    1
+set "Threshold[0..15]" 8
+
+mkdir "/Equipment/Expcvadc/Settings/V785N_2"
+cd "/Equipment/Expcvadc/Settings/V785N_2"
+create BOOL  "Enable"
+create DWORD "Address"
+create INT   "Mode"
+create WORD  "Threshold[16]"
+set "Enable" n
+
+mkdir "/Equipment/Expcvadc/Settings/V785N_3"
+cd "/Equipment/Expcvadc/Settings/V785N_3"
+create BOOL  "Enable"
+create DWORD "Address"
+create INT   "Mode"
+create WORD  "Threshold[16]"
+set "Enable" n
+set "Address" 0x785e0000
+set "Mode"    1
+set "Threshold[0..15]" 8
+
+mkdir "/Equipment/Expcvadc/Settings/V785N_4"
+cd "/Equipment/Expcvadc/Settings/V785N_4"
+create BOOL  "Enable"
+create DWORD "Address"
+create INT   "Mode"
+create WORD  "Threshold[16]"
+set "Enable" n
+
+mkdir "/Equipment/Expcvadc/Settings/V560_1"
+cd "/Equipment/Expcvadc/Settings/V560_1"
+create BOOL  "Enable"
+create DWORD "Address"
+set "Enable"  n
+set "Address" 0x560F0000
+
+make cvadcana
+
