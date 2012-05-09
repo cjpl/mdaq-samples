@@ -1,0 +1,9 @@
+.*.SHM
+.SHM_*
+*.hst
+*.idf
+*.idx
+bin/
+data/
+last.root
+*.log

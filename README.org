@@ -1,5 +1,5 @@
 # -*- mode: org; coding: utf-8
-#+TITLE: Examples for mdaq
+#+TITLE: Code samples for mdaq
 #+AUTHOR: Exaos Lee <exaos.DOT.lee(at)gmail.DOT.com>
 
 This directory contains examples for mdaq (Midas Data AcQuistion).
