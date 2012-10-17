@@ -1,3 +1,4 @@
+
 bin/
 data/
 
@@ -12,3 +13,17 @@ last.root
 last.xml
 run*.mid
 runlog.txt
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
