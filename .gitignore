@@ -1,9 +1,14 @@
+bin/
+data/
+
 .*.SHM
 .SHM_*
 *.hst
 *.idf
 *.idx
-bin/
-data/
-last.root
 *.log
+
+last.root
+last.xml
+run*.mid
+runlog.txt

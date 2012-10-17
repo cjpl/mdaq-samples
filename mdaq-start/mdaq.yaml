@@ -1,48 +1,25 @@
-# mode: yaml; coding: utf-8
-########################################################################
-# Experiment configuration example using YAML. Strings after `#` are comments.
-#
+# Experiment configuration example
 # The configuration divided into two parts
-# 1. experiment -- define experiment basic information
-# 2. mdaq_sys   -- define parameters for MIDAS utilities
+# 1. experiment -- define experiment base information
+# 2. midassys -- define parameters for MIDAS utilities
 
 # Experiment information
-experiment:
-  # The experiment ID, no space in it!
-  id: mdaq-start
-  info: Test directory
-  paths:
-    base: ./
-    data: ./data
-    bin:  ./bin
-  analyzer:
+experiment: &exp001
+  id:   mdaq-start  # The experiment ID, no space in it!
+  info: MDAQ startup example
+  path-bin: ./bin
+  analyzer: &analyzer
     name: analyzer
-    info: analyzer for mdaq-start
-    options: [-D, ]
-  frontend:
+  frontend: &frontend
     name: frontend
-    info: Frontend for mdaq-start
-    options: [-D, ]
+  pre-codes:  # run before services
+    - 'rm -rf .*.SHM .SHM*'
+  post-codes: # run after others
 
 # MIDAS System
-mdaq_sys:
-  path: /usr/lib/mdaq
-  bin: /usr/lib/mdaq/bin
-  exptab: ./exptab
-  host: localhost
-  mhttpd: # MIDAS HTTPD Server
-    enabled: true
-    options: [-D, ]
+mdaq-system:
+  mhttpd:
     port: 8080
-  mlogger: # Data Logger
-    exec:    mlogger-root # use root-enabled mlogger (default)
-    enabled: true
-    options: [-D, ]
-  mserver: # MIDAS Server
-    enabled: true
-    options: [-D, -m]
-  odbedit: # Online DB Editor
-    enabled: false
-    options: []
-    script: ''
+  mlogger: # using mlogger with root support
+    name: mlogger-root
 
