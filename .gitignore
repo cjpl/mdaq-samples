@@ -1,3 +1,6 @@
+*~
+*.pyc
+\#*
 
 bin/
 data/
@@ -26,4 +29,3 @@ runlog.txt
 *.lai
 *.la
 *.a
-
